@@ -679,4 +679,24 @@ public class QuerydslBasicTest {
                 .where(member.age.gt(18))
                 .execute();
     }
+
+    @Test
+    public void sql_function() {
+        String result = queryFactory
+                .select(Expressions.stringTemplate("function('replace', {0}, {1}, {2})", member.username, "member", "M"))
+                .from(member)
+                .fetchFirst();
+
+        queryFactory
+                .select(member.username)
+                .from(member)
+                .where(member.username.eq(Expressions.stringTemplate("function('lower', {0})", member.username)))
+                .fetchFirst();
+
+        queryFactory
+                .select(member.username)
+                .from(member)
+                .where(member.username.eq(member.username.lower()))
+                .fetchFirst();
+    }
 }

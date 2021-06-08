@@ -10,11 +10,13 @@ import study.querydsl.repository.MemberJpaRepository;
 import java.util.List;
 
 @RestController
-public class HelloController {
+@RequiredArgsConstructor
+public class MemberController {
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello!";
+    private final MemberJpaRepository memberJpaRepository;
+
+    @GetMapping("/v1/members")
+    public List<MemberTeamDto> searchMemberV1(MemberSearchCondition condition) {
+        return memberJpaRepository.search(condition);
     }
-
 }
